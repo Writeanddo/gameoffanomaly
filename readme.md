@@ -18,3 +18,4 @@ Notes on contribution:
 - If there's potential for a merge conflict for a particular asset - make a copy of the asset and work on that, then merge the changes manually.
 - DONT USE BP STRUCTS 
 - Don`t push to main branch, create a new branch and make a pull request.
+- 
