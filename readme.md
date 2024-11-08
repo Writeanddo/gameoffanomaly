@@ -8,6 +8,8 @@ Notes on contribution:
 - - `Assets/`: Art assets, like textures, materials, meshes, etc.
 - - `Input/`: Contains all the input actions and mappings.
 - - `Maps/`: Contains all the maps of the game.
+- - - `Release`: Contains maps to be shipped with the game.
+- - - `SandBox`: Contains maps for testing and development.
 - - `UI/`: Contains all the UI assets, like widgets, etc.
 - - `Flow/`: What controls game flow, like game modes, game states, etc.
 - - `Sound/`: Contains all the sound assets.
@@ -16,3 +18,4 @@ Notes on contribution:
 - If there's potential for a merge conflict for a particular asset - make a copy of the asset and work on that, then merge the changes manually.
 - DONT USE BP STRUCTS 
 - Don`t push to main branch, create a new branch and make a pull request.
+- 
