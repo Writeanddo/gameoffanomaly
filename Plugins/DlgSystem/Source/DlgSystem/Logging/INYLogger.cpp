@@ -57,9 +57,10 @@ INYLogger& INYLogger::SetClientConsolePlayerController(APlayerController* PC)
 
 FOutputDevice* INYLogger::GetOutputDeviceFromLogLevel(ENYLoggerLogLevel Level)
 {
-#if NO_LOGGING
-	return nullptr;
-#endif
+// TODO: FIX THIS FOR production build
+// #if NO_LOGGING
+// 	return nullptr;
+// #endif
 
 	switch (Level)
 	{
