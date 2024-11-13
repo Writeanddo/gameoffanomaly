@@ -72,7 +72,10 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	float FCurrentCharge;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	TWeakObjectPtr<AActor> TargetActor;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	FVector TargetLocation;
 
 	// override this function to implement feature activation
