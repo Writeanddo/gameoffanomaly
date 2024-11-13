@@ -67,6 +67,16 @@ void AFeatureBase::SetTarget(FVector Location, AActor* Actor)
 	bHasTarget = true;
 }
 
+void AFeatureBase::Refill(float Amount)
+{
+	FCurrentCharge = FMath::Clamp(FCurrentCharge + Amount, 0.0f, FCapacity);
+}
+
+void AFeatureBase::RefillFull()
+{
+	FCurrentCharge = FCapacity;
+}
+
 void AFeatureBase::OnActivate_Implementation()
 {
 	// default implementation

@@ -54,6 +54,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 	void SetTarget(FVector Location, AActor* Actor);
 
+	// Refill charge
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	void Refill(float Amount);
+
+	// Refill charge to full
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	void RefillFull();
+	
 protected:
 	virtual void BeginPlay() override;
 
