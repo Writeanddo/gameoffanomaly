@@ -52,12 +52,16 @@ bool AFeatureBase::Activate()
 	OnActivate();
 	GetWorldTimerManager().SetTimer(CooldownTimerHandle, this, &AFeatureBase::AfterActivate, FCooldown, false);
 
+	OnFeatureActivated.Broadcast();
+
 	return true;
 }
 
 void AFeatureBase::Deactivate()
 {
 	bQueueFire = false;
+
+	OnFeatureDeactivated.Broadcast();
 }
 
 void AFeatureBase::SetTarget(FVector Location, AActor* Actor)
@@ -86,6 +90,8 @@ void AFeatureBase::AfterActivate()
 {
 	bIsOnCooldown = false;
 
+	OnFeatureCooldownPassed.Broadcast();
+	
 	if (bIsOneShot)
 	{
 		return;

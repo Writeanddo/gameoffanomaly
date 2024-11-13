@@ -7,13 +7,25 @@
 #include "GameFramework/Actor.h"
 #include "FeatureBase.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFeatureActivated);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFeatureCooldownPassed);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFeatureDeactivated);
+
 UCLASS()
 class SECRETGGAME_API AFeatureBase : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
+	UPROPERTY(BlueprintAssignable, Category = "Events", meta = (ToolTip = "Fires when feature is activated."))
+	FOnFeatureActivated OnFeatureActivated;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events", meta = (ToolTip = "Fires when feature is deactivated."))
+	FOnFeatureDeactivated OnFeatureDeactivated;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events", meta = (ToolTip = "Fires after cooldown ends."))
+	FOnFeatureCooldownPassed OnFeatureCooldownPassed;
+	
 	AFeatureBase();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat",
