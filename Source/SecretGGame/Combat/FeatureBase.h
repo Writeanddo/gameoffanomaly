@@ -16,53 +16,63 @@ public:
 	// Sets default values for this actor's properties
 	AFeatureBase();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (ToolTip = "If true, fires only once after activation, otherwise fires continuously."))
-	bool bIsOneShot;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat",
+		meta = (ToolTip = "If true, fires only once after activation, otherwise fires continuously."))
+	bool bIsOneShot = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (ToolTip = "Total charge capacity."))
-	float FCapacity;
-	
+	float FCapacity = 100.0f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (ToolTip = "Cost per activation."))
-	float FCost;
+	float FCost = 10.0f;
 
 	// cooldown in seconds
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (ToolTip = "Cooldown in seconds."))
-	float FCooldown;
+	float FCooldown = 0.1f;
 
 	// regen in seconds
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (ToolTip = "Regeneration in seconds."))
-	float FRegen;
+	float FRegen = 0.1f;
 
-	
-	
-	
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	// regen timestep in seconds
+	float FRegenTimeStep = 0.1f;
 
-	
-	bool bIsOnCooldown;
-	// Remaining charge
-	float FCurrentCharge;
+	FTimerHandle CooldownTimerHandle;
+	FTimerHandle RegenTimerHandle;
 
-	// current target Actor
-	AActor* TargetActor;
-
-	// current target location
-	FVector TargetLocation;
-
-	// has target?
-	bool bHasTarget;
-	
-public:
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Start feature activation and return true if successful
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 	bool Activate();
 
-	//
+	// Stop feature activation
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	void Deactivate();
+
 	// Set target location and actor
-	
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	void SetTarget(FVector Location, AActor* Actor);
+
+protected:
+	virtual void BeginPlay() override;
+
+	bool bIsOnCooldown = false;
+	bool bHasTarget = false;
+	bool bQueueFire = false;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	float FCurrentCharge;
+
+	TWeakObjectPtr<AActor> TargetActor;
+	FVector TargetLocation;
+
+	// override this function to implement feature activation
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
+	void OnActivate();
+	virtual void OnActivate_Implementation();
+
+private:
+	void AfterActivate();
+	void Regenerate();
 };
