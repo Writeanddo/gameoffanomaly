@@ -14,4 +14,11 @@ public:
 	static UWorld* GetWorld();
 	UFUNCTION(BlueprintCallable, Category = "FlowController")
 	static void LoadLevel(ELevelNames LevelName);
+
+	// get level name
+	UFUNCTION(BlueprintCallable, Category = "FlowController")
+	static FString GetLevelName(ELevelNames LevelName)
+	{
+		return ::GetLevelName(LevelName);
+	}
 };
