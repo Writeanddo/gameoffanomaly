@@ -8,7 +8,8 @@ enum class ELevelNames : uint8
 	LevelMainMenu = 0 UMETA(DisplayName = "LevelMainMenu"),
 	LevelEndGame = 1 UMETA(DisplayName = "LevelEndGame"),
 	LevelHubWorld = 2 UMETA(DisplayName = "LevelHubWorld"),
-	
+
+	None = 255 UMETA(Hidden)
 };
 
 inline FString GetLevelName(ELevelNames const LevelName)
