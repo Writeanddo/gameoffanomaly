@@ -55,7 +55,6 @@ void ALevelPortalBase::EnterPortal()
 
 void ALevelPortalBase::AssignAnomalies()
 {
-	// go through all Anomalies and assign this portal to them
 	for (AAnomalyBase* Anomaly : Anomalies)
 	{
 		Anomaly->LevelPortal = this;
@@ -64,7 +63,6 @@ void ALevelPortalBase::AssignAnomalies()
 
 void ALevelPortalBase::FillAnomalies()
 {
-	// if autofill is enabled, fill anomalies array with all anomalies in level
 	if (bAutoFillAnomalies)
 	{
 		for (TActorIterator<AAnomalyBase> AnomalyItr(GetWorld()); AnomalyItr; ++AnomalyItr)

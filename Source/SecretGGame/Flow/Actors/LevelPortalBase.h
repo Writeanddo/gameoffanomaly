@@ -32,7 +32,7 @@ public:
 	ELevelNames NextLevel = ELevelNames::None;
 
 	// Locked?
-	UPROPERTY(BlueprintReadOnly, Category = "LevelPortal")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelPortal")
 	bool bLocked = false;
 
 	// Anomalies required to unlock
@@ -50,11 +50,11 @@ public:
 	// On portal enter
 	UFUNCTION(BlueprintCallable, Category = "LevelPortal")
 	void EnterPortal();
-	
+
 	// On unlock notification
 	UPROPERTY(BlueprintAssignable, Category = "LevelPortal")
 	FOnLevelPortalUnlocked OnLevelPortalUnlocked;
-	
+
 	// assign itself to anomalies in array
 	void AssignAnomalies();
 
