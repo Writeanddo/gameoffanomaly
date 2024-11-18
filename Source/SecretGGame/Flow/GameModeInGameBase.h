@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CustomGameInstance.h"
 #include "GameFramework/GameMode.h"
 #include "GameModeInGameBase.generated.h"
 
@@ -20,4 +21,13 @@ public:
 	// Restart current level
 	UFUNCTION(BlueprintCallable, Category = "Game")
 	void Retry() const;
+
+	// current GameInstance
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Game")
+	UCustomGameInstance* CustomGameInstance;
+	
+	// Places player at the start location
+	// If GameInstance has previous level - find LevelPortalBase with the same level name as PreviousLevel
+	// and set player location to that LevelPortalBase's location
+	void PlacePlayerAtStartLocation() const;
 };
