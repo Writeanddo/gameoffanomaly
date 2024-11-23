@@ -4,15 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "ActorSpawner.generated.h"
+#include "SGActorSpawner.generated.h"
 
 UCLASS()
-class SECRETGGAME_API AActorSpawner : public AActor
+class SECRETGGAME_API ASGActorSpawner : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	AActorSpawner();
+	ASGActorSpawner();
 
 	// Actor class to spawn
 	UPROPERTY(BlueprintReadWrite, Category = "Combat", meta = (ToolTip = "Enemy class to spawn."))
