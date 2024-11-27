@@ -81,6 +81,21 @@ void AFeatureBase::RefillFull()
 	FCurrentCharge = FCapacity;
 }
 
+FVector AFeatureBase::GetRandomLocationInRange(FVector const& TargetLocation, float const Range)
+{
+	FVector const RandomLocation = TargetLocation + FVector(FMath::RandRange(-Range, Range),
+	                                                        FMath::RandRange(-Range, Range),
+	                                                        FMath::RandRange(-Range, Range));
+	return RandomLocation;
+}
+
+FVector AFeatureBase::GetLocationAtDistance(FVector const& Origin, FVector const& Target, float const Distance)
+{
+	FVector const Direction = (Target - Origin).GetSafeNormal();
+	FVector const Location = Origin + Direction * Distance;
+	return Location;
+}
+
 void AFeatureBase::OnActivate_Implementation()
 {
 	// default implementation
@@ -91,7 +106,7 @@ void AFeatureBase::AfterActivate()
 	bIsOnCooldown = false;
 
 	OnFeatureCooldownPassed.Broadcast();
-	
+
 	if (bIsOneShot)
 	{
 		return;
