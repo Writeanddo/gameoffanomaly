@@ -25,7 +25,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Events", meta = (ToolTip = "Fires after cooldown ends."))
 	FOnFeatureCooldownPassed OnFeatureCooldownPassed;
-	
+
 	AFeatureBase();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat",
@@ -73,6 +73,16 @@ public:
 	// Refill charge to full
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 	void RefillFull();
+
+	// Utility functions:
+	
+	// Get random location in range, relative to target location
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	static FVector GetRandomLocationInRange(FVector const& TargetLocation, float const Range);
+
+	// Given origin, target and range, return location at distance from origin to target
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	static FVector GetLocationAtDistance(FVector const& Origin, FVector const& Target, float const Distance);
 	
 protected:
 	virtual void BeginPlay() override;
@@ -86,7 +96,7 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	TWeakObjectPtr<AActor> TargetActor;
-	
+
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	FVector TargetLocation;
 
