@@ -17,7 +17,7 @@ public:
 
 	// get level name
 	UFUNCTION(BlueprintCallable, Category = "FlowController")
-	static FString GetLevelName(ELevelNames LevelName)
+	static FString GetLevelName(const ELevelNames LevelName)
 	{
 		return ::GetLevelName(LevelName);
 	}

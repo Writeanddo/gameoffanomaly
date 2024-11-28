@@ -18,6 +18,14 @@ ABossKey::ABossKey()
 void ABossKey::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (const UCustomGameInstance* GameInstance = Cast<UCustomGameInstance>(GetGameInstance()))
+	{
+		if (GameInstance->GameplayState->AcquiredBossKeys.Contains(BossKeyName))
+		{
+			Destroy();
+		}
+	}
 }
 
 // Called every frame
@@ -32,9 +40,9 @@ void ABossKey::Pickup()
 	{
 		bPickedUp = true;
 
-		if (UCustomGameInstance* GameInstance = Cast<UCustomGameInstance>(GetGameInstance()))
+		if (const UCustomGameInstance* GameInstance = Cast<UCustomGameInstance>(GetGameInstance()))
 		{
-			GameInstance->AcquiredBossKeys.AddUnique(BossKeyName);
+			GameInstance->AddBossKey(BossKeyName);
 		}
 
 		OnPickup.Broadcast();

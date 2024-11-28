@@ -3,10 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayState.h"
 #include "LevelNames.h"
 #include "Actors/BossKey.h"
+#include "QuestObjective.h"
 #include "Engine/GameInstance.h"
 #include "CustomGameInstance.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGamePlayStateChanged);
+
+constexpr int32 GNum_Boss_Keys = 3;
 
 /**
  * 
@@ -17,37 +23,37 @@ class SECRETGGAME_API UCustomGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
-	// Previous level
+	// Gameplay State
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "FlowController")
-	ELevelNames PreviousLevel = ELevelNames::None;
+	UGameplayState* GameplayState;
 
-	// Current level
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "FlowController")
-	ELevelNames CurrentLevel = ELevelNames::None;
+	// Set current objective
+	UFUNCTION(BlueprintCallable, Category = "FlowController")
+	void SetCurrentObjectiveId(const EQuestObjectiveIds ObjectiveId) const;
 
-	// Acquired boss keys
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "FlowController")
-	TArray<EBossKeyNames> AcquiredBossKeys;
+	// Add boss key to acquired keys
+	UFUNCTION(BlueprintCallable, Category = "FlowController")
+	void AddBossKey(EBossKeyNames BossKeyName) const;
+
+	// Has all keys?
+	UFUNCTION(BlueprintCallable, Category = "FlowController")
+	bool HasAllKeys() const;
 	
 	// Reset various properties on game start
 	UFUNCTION(BlueprintCallable, Category = "FlowController")
-	void ResetOnGameStart()
-	{
-		PreviousLevel = ELevelNames::None;
-		CurrentLevel = ELevelNames::None;
-		AcquiredBossKeys.Empty();
-	}
-	
+	void ResetOnGameStart() const;
+
 	UFUNCTION(BlueprintCallable, Category = "FlowController")
-	void SetCurrentLevel(ELevelNames LevelName)
-	{
-		CurrentLevel = LevelName;
-	}
+	void SetCurrentLevel(const ELevelNames LevelName) const;
 
 	// current to previous level name
 	UFUNCTION(BlueprintCallable, Category = "FlowController")
-	void UpdatePreviousLevel()
-	{
-		PreviousLevel = CurrentLevel;
-	}
+	void UpdatePreviousLevel() const;
+
+	UPROPERTY(BlueprintAssignable, Category = "FlowController",
+		meta = (ToolTip = "Fires fields representing player state are changed"))
+	FOnGamePlayStateChanged OnGamePlayStateChanged;
+
+	// Override Init method
+	virtual void Init() override;
 };
