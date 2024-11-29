@@ -39,13 +39,13 @@ void AGameModeInGameBase::PlacePlayerAtStartLocation() const
 		const ELevelNames CurrentLevelNameEnum = GetLevelNameEnum(CurrentLevelName.ToString());
 		CustomGameInstance->SetCurrentLevel(CurrentLevelNameEnum);
 
-		if (CustomGameInstance->PreviousLevel != ELevelNames::None)
+		if (CustomGameInstance->GameplayState->PreviousLevel != ELevelNames::None)
 		{
 			for (TActorIterator<ALevelPortalBase> PortalItr(GetWorld()); PortalItr; ++PortalItr)
 			{
 				if (const ALevelPortalBase* LevelPortalBase = *PortalItr; LevelPortalBase->NextLevel ==
 					CustomGameInstance->
-					PreviousLevel)
+					GameplayState->PreviousLevel)
 				{
 					UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->SetActorLocation(
 						LevelPortalBase->GetActorLocation());
