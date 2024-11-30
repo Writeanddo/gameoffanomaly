@@ -21,4 +21,9 @@ public:
 	{
 		return ::GetLevelName(LevelName);
 	}
+
+	// get levels as options for dropdown
+	UFUNCTION(BlueprintCallable, Category = "FlowController")
+	static TArray<FString> GetLevelNames();
+
 };

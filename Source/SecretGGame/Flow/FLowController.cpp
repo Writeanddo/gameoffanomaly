@@ -32,7 +32,8 @@ void UFLowController::LoadLevel(ELevelNames const LevelName)
 		{
 			CustomGameInstance->ResetOnGameStart();
 		}
-		else if (LevelName != ELevelNames::LevelMainMenu || LevelName != ELevelNames::None || LevelName != ELevelNames::LevelEndGame)
+		else if (LevelName != ELevelNames::LevelMainMenu || LevelName != ELevelNames::None || LevelName !=
+			ELevelNames::LevelEndGame)
 		{
 			CustomGameInstance->UpdatePreviousLevel();
 		}
@@ -41,4 +42,23 @@ void UFLowController::LoadLevel(ELevelNames const LevelName)
 	FString const LevelToLoad = GetLevelName(LevelName);
 	UE_LOG(LogTemp, Warning, TEXT("Loading level: %s"), *LevelToLoad);
 	UGameplayStatics::OpenLevel(GetWorld(), FName(*LevelToLoad));
+}
+
+TArray<FString> UFLowController::GetLevelNames()
+{
+	TArray<FString> LevelNames;
+	for (int32 i = 0; i < static_cast<int32>(ELevelNames::Count); ++i)
+	{
+		if (i == static_cast<int32>(ELevelNames::None)
+			or i == static_cast<int32>(ELevelNames::Count)
+			or i == static_cast<int32>(ELevelNames::LevelMainMenu)
+			or i == static_cast<int32>(ELevelNames::LevelEndGame)
+		)
+		{
+			continue;
+		}
+		LevelNames.Add(GetLevelName(static_cast<ELevelNames>(i)));
+	}
+
+	return LevelNames;
 }
