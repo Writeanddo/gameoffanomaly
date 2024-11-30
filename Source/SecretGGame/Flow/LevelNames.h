@@ -21,8 +21,8 @@ enum class ELevelNames : uint8
 	LevelTunnelsFinal = 13 UMETA(DisplayName = "LevelTunnelsFinal"),
 	LevelAdminConsole = 14 UMETA(DisplayName = "LevelAdminConsole"),
 	LevelBossFight = 15 UMETA(DisplayName = "LevelBossFight"),
-	
-	None = 255 UMETA(Hidden)
+	Count = 16 UMETA(Hidden),
+	None = 255 UMETA(Hidden), 
 };
 
 // Level name, Enum to string
