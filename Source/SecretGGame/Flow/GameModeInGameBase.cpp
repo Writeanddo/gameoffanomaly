@@ -31,6 +31,8 @@ void AGameModeInGameBase::Retry() const
 	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 }
 
+double PORTAL_OFFSET = 200.0;
+
 void AGameModeInGameBase::PlacePlayerAtStartLocation() const
 {
 	if (CustomGameInstance)
@@ -47,8 +49,11 @@ void AGameModeInGameBase::PlacePlayerAtStartLocation() const
 					CustomGameInstance->
 					GameplayState->PreviousLevel)
 				{
+					// portal location
+					FVector PortalLocation = LevelPortalBase->GetActorLocation();
+					PortalLocation.Z += PORTAL_OFFSET;
 					UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->SetActorLocation(
-						LevelPortalBase->GetActorLocation());
+						PortalLocation);
 					return;
 				}
 			}
