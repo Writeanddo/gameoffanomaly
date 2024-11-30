@@ -139,21 +139,15 @@ public:
 	// given option name and set of options, set fullscreen mode
 	UFUNCTION(BlueprintCallable, Category = Settings)
 	void SetFullScreenModeOption(const FString& OptionName, const TArray<FFullScreenModeOption>& Options);
-
-private:
-	void ApplyScalabilitySettings()
-	{
-		SetOverallScalabilityLevel(ScalabilityLevel);
-		ApplyResolutionSettings(false);
-		SaveSettings();
-	}
 };
 
 inline void USecretGameUserSettings::SetScalabilityLevel(int32 Level)
 {
 	ScalabilityLevel = Level;
-	ApplyScalabilitySettings();
+	SetOverallScalabilityLevel(ScalabilityLevel);
+	ApplySettings(false);
 	ApplyResolutionSettings(false);
+	SaveSettings();
 }
 
 inline TArray<FResolutionOption> USecretGameUserSettings::GetCommonFullscreenResolutions()
