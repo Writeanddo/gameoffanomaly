@@ -54,4 +54,5 @@ Session.vim
 Plugins/FMODStudio/Binaries/*
 Plugins/FMODStudio/Intermediate/*
 
-/Plugins/FMODStudio/Intermediate/**/*
+Plugins/FMODStudioNiagara/Binaries/*
+Plugins/FMODStudioNiagara/Intermediate/*
