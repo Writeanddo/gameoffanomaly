@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "FMODAudioComponent.h"
+#include "FMODEvent.h"
 #include "GameplayState.h"
 #include "LevelNames.h"
 #include "Actors/BossKey.h"
@@ -56,4 +58,8 @@ public:
 
 	// Override Init method
 	virtual void Init() override;
+
+	// FMOD event instance for background music
+	UPROPERTY(BlueprintReadOnly, Category = "Audio")
+	UFMODAudioComponent* MasterAudioComponent;
 };
