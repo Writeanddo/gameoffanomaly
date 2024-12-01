@@ -50,3 +50,9 @@ Session.vim
 # Visual Studio
 .vs
 /Content/Assets/Animations/LyraSrc/
+
+Plugins/FMODStudio/Binaries/*
+Plugins/FMODStudio/Intermediate/*
+
+Plugins/FMODStudioNiagara/Binaries/*
+Plugins/FMODStudioNiagara/Intermediate/*
