@@ -23,6 +23,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta=(ExposeOnSpawn = "true"))
 	int32 CurrentLineIndex = 0;
 
+	// Queue is blocking
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta=(ExposeOnSpawn = "true"))
+	bool bBlocking = false;
+	
 	// try getting option and increment index
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 	class UDialogueLine* GetNextLine()

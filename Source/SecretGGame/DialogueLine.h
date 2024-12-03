@@ -26,5 +26,8 @@ public:
 	// Audio file to play
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (ExposeOnSpawn = "true"))
 	USoundBase* Audio;
-	
+
+	// Audio offset
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (ExposeOnSpawn = "true"))
+	float AudioOffset = 0.0f;
 };
