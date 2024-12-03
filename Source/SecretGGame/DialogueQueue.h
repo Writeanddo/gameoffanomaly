@@ -46,4 +46,8 @@ public:
 	{
 		return CurrentLineIndex < DialogueLines.Num();
 	}
+
+	// Owner Actor of the queue
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (ExposeOnSpawn = "true"))
+	AActor* OwnerActor;
 };
