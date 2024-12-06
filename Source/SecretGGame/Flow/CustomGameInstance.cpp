@@ -26,7 +26,7 @@ void UCustomGameInstance::AddBossKey(const EBossKeyNames BossKeyName) const
 	
 	if (HasAllKeys() && GameplayState->CurrentObjectiveId == EQuestObjectiveIds::FindKeys)
 	{
-		SetCurrentObjectiveId(EQuestObjectiveIds::DefeatBoss);
+		SetCurrentObjectiveId(EQuestObjectiveIds::AccessAdminConsole);
 	}
 
 	OnGamePlayStateChanged.Broadcast();
@@ -43,6 +43,7 @@ void UCustomGameInstance::ResetOnGameStart() const
 	GameplayState->CurrentLevel = ELevelNames::None;
 	GameplayState->CurrentObjectiveId = EQuestObjectiveIds::Explore;
 	GameplayState->AcquiredBossKeys.Empty();
+	GameplayState->bHubLevelUnlocked = false;
 	OnGamePlayStateChanged.Broadcast();
 }
 
@@ -55,6 +56,18 @@ void UCustomGameInstance::SetCurrentLevel(const ELevelNames LevelName) const
 void UCustomGameInstance::UpdatePreviousLevel() const
 {
 	GameplayState->PreviousLevel = GameplayState->CurrentLevel;
+	OnGamePlayStateChanged.Broadcast();
+}
+
+void UCustomGameInstance::ClearPreviousLevel() const
+{
+	GameplayState->PreviousLevel = ELevelNames::None;
+	OnGamePlayStateChanged.Broadcast();
+}
+
+void UCustomGameInstance::UnlockHubLevel() const
+{
+	GameplayState->bHubLevelUnlocked = true;
 	OnGamePlayStateChanged.Broadcast();
 }
 

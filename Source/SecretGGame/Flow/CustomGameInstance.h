@@ -52,6 +52,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FlowController")
 	void UpdatePreviousLevel() const;
 
+	// clear previous level
+	UFUNCTION(BlueprintCallable, Category = "FlowController")
+	void ClearPreviousLevel() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "FlowController")
+	void UnlockHubLevel() const;
+	
 	UPROPERTY(BlueprintAssignable, Category = "FlowController",
 		meta = (ToolTip = "Fires fields representing player state are changed"))
 	FOnGamePlayStateChanged OnGamePlayStateChanged;
