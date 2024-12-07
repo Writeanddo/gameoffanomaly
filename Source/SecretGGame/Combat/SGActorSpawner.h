@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "SGActorSpawner.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSuccessfullySpawned);
+
 UCLASS()
 class SECRETGGAME_API ASGActorSpawner : public AActor
 {
@@ -48,6 +50,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Combat", meta = (ToolTip = "Spawn on scanner trigger.", ReturnDisplayName = "Success"))
 	bool SpawnOnScannerTrigger();
 
+	// Successfully spawned event
+	UPROPERTY(BlueprintAssignable, Category = "Combat", meta = (ToolTip = "Successfully spawned event."))
+	FOnSuccessfullySpawned OnSuccessfullySpawned;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
