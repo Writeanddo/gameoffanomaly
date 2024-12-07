@@ -90,7 +90,7 @@ void ASGActorSpawner::DelayedSpawn()
 
 	if (bSpawnOnScannerTrigger == true)
 	{
-		if (SpawnCount == 0 || SpawnTimesRemaining == 0)
+		if (SpawnCount != 0 and SpawnTimesRemaining == 0)
 		{
 			OnScannerSpawnsDepleted.Broadcast();
 		}
