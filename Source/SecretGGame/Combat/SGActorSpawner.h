@@ -7,6 +7,8 @@
 #include "SGActorSpawner.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSuccessfullySpawned);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnScannerSpawnsDepleted);
+
 
 UCLASS()
 class SECRETGGAME_API ASGActorSpawner : public AActor
@@ -53,6 +55,10 @@ public:
 	// Successfully spawned event
 	UPROPERTY(BlueprintAssignable, Category = "Combat", meta = (ToolTip = "Successfully spawned event."))
 	FOnSuccessfullySpawned OnSuccessfullySpawned;
+
+	// Scanner spawns depleted event
+	UPROPERTY(BlueprintAssignable, Category = "Combat", meta = (ToolTip = "Scanner spawns depleted event."))
+	FOnScannerSpawnsDepleted OnScannerSpawnsDepleted;
 	
 protected:
 	// Called when the game starts or when spawned

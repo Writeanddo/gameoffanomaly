@@ -87,6 +87,14 @@ void ASGActorSpawner::DelayedSpawn()
 	GetWorld()->SpawnActor<AActor>(ActorClass, Location, FRotator::ZeroRotator, SpawnParams);
 	GetWorldTimerManager().ClearTimer(SpawnDelayTimerHandle);
 	OnSuccessfullySpawned.Broadcast();
+
+	if (bSpawnOnScannerTrigger == true)
+	{
+		if (SpawnCount == 0 || SpawnTimesRemaining == 0)
+		{
+			OnScannerSpawnsDepleted.Broadcast();
+		}
+	}
 }
 
 void ASGActorSpawner::Tick(float DeltaTime)
