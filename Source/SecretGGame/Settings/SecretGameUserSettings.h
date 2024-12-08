@@ -142,6 +142,22 @@ public:
 	// given option name and set of options, set fullscreen mode
 	UFUNCTION(BlueprintCallable, Category = Settings)
 	void SetFullScreenModeOption(const FString& OptionName, const TArray<FFullScreenModeOption>& Options);
+
+
+	// get game version string
+	UFUNCTION(BlueprintCallable, Category = Settings)
+	FString GetGameVersionString()
+	{
+		FString VersionString;
+		GConfig->GetString(
+			TEXT("/Script/EngineSettings.GeneralProjectSettings"),
+			TEXT("ProjectVersion"),
+			VersionString,
+			GGameIni
+		);
+
+		return VersionString;
+	}
 };
 
 inline void USecretGameUserSettings::SetScalabilityLevel(int32 Level)
