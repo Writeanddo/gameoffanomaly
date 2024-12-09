@@ -6,6 +6,9 @@
 #include "UObject/Object.h"
 #include "DialogueQueue.generated.h"
 
+// notifier on queue end
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDialogueQueueEnd);
+
 /**
  * 
  */
@@ -23,6 +26,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta=(ExposeOnSpawn = "true"))
 	int32 CurrentLineIndex = 0;
 
+	// Queue is blocking
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta=(ExposeOnSpawn = "true"))
+	bool bBlocking = false;
+
+	// Queue end notifier
+	UPROPERTY(BlueprintAssignable, Category = "Dialogue")
+	FOnDialogueQueueEnd OnDialogueQueueEnd;
+	
 	// try getting option and increment index
 	UFUNCTION(BlueprintCallable, Category = "Dialogue")
 	class UDialogueLine* GetNextLine()
@@ -33,6 +44,8 @@ public:
 			CurrentLineIndex++;
 			return Line;
 		}
+
+		OnDialogueQueueEnd.Broadcast();
 		return nullptr;
 	}
 
@@ -42,4 +55,8 @@ public:
 	{
 		return CurrentLineIndex < DialogueLines.Num();
 	}
+
+	// Owner Actor of the queue
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue", meta = (ExposeOnSpawn = "true"))
+	AActor* OwnerActor;
 };

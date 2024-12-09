@@ -52,6 +52,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FlowController")
 	void UpdatePreviousLevel() const;
 
+	// clear previous level
+	UFUNCTION(BlueprintCallable, Category = "FlowController")
+	void ClearPreviousLevel() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "FlowController")
+	void UnlockHubLevel() const;
+	
 	UPROPERTY(BlueprintAssignable, Category = "FlowController",
 		meta = (ToolTip = "Fires fields representing player state are changed"))
 	FOnGamePlayStateChanged OnGamePlayStateChanged;
@@ -62,4 +69,24 @@ public:
 	// FMOD event instance for background music
 	UPROPERTY(BlueprintReadOnly, Category = "Audio")
 	UFMODAudioComponent* MasterAudioComponent;
+
+
+	// Ask FMOD for calm music
+	UFUNCTION(BlueprintCallable, Category = "Audio")
+	void PlayCalmMusic();
+
+	// Ask FMOD for intense music
+	UFUNCTION(BlueprintCallable, Category = "Audio")
+	void PlayIntenseMusic();
+
+	FTimerHandle IntenseMusicTimerHandle;
+
+	float IntenseMusicTimeout = 60.0f;
+
+	bool bKeepIntenseMusic = false;
+	bool bCalmMusicIsPlaying = false;
+
+	// clear intense music flag and ask FMOD for calm music
+	UFUNCTION(BlueprintCallable, Category = "Audio")
+	void ClearIntenseMusicFlag();
 };

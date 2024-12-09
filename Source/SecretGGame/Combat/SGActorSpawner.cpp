@@ -12,19 +12,20 @@ ASGActorSpawner::ASGActorSpawner()
 
 void ASGActorSpawner::ResetSpawnTimeThrottle()
 {
-	GetWorldTimerManager().ClearTimer(SpawnTimeThrottleTimerHandle);
+	GetWorldTimerManager().ClearTimer(SpawnThrottleTimerHandle);
 }
 
-void ASGActorSpawner::Spawn()
+bool ASGActorSpawner::Spawn()
 {
 	if (!ActorClass)
 	{
-		return;
+		return false;
 	}
 
-	if (GetWorldTimerManager().IsTimerActive(SpawnTimeThrottleTimerHandle))
+	if (GetWorldTimerManager().IsTimerActive(SpawnThrottleTimerHandle) or GetWorldTimerManager().IsTimerActive(
+		SpawnDelayTimerHandle))
 	{
-		return;
+		return false;
 	}
 
 	if (SpawnCount == 0 || SpawnTimesRemaining > 0)
@@ -33,29 +34,37 @@ void ASGActorSpawner::Spawn()
 	}
 	else
 	{
-		return;
+		return false;
 	}
 
-	const FVector Location = GetActorLocation();
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+	if (SpawnDelayTime > 0.0f)
+	{
+		GetWorldTimerManager().SetTimer(SpawnDelayTimerHandle, this, &ASGActorSpawner::DelayedSpawn,
+		                                SpawnDelayTime, false);
+	}
+	else
+	{
+		DelayedSpawn();
+	}
 
-	GetWorld()->SpawnActor<AActor>(ActorClass, Location, FRotator::ZeroRotator, SpawnParams);
-	GetWorldTimerManager().SetTimer(SpawnTimeThrottleTimerHandle, this, &ASGActorSpawner::ResetSpawnTimeThrottle,
-	                                SpawnTimeThrottle, false);
+	GetWorldTimerManager().SetTimer(SpawnThrottleTimerHandle, this, &ASGActorSpawner::ResetSpawnTimeThrottle,
+	                                SpawnThrottleTime, false);
+	return true;
 }
 
-void ASGActorSpawner::SpawnOnScannerTrigger()
+bool ASGActorSpawner::SpawnOnScannerTrigger()
 {
 	if (!bSpawnOnScannerTrigger)
 	{
-		return;
+		return false;
 	}
 
 	if (FMath::FRand() <= ScannerTriggerChance)
 	{
-		Spawn();
+		return Spawn();
 	}
+
+	return false;
 }
 
 void ASGActorSpawner::BeginPlay()
@@ -66,6 +75,25 @@ void ASGActorSpawner::BeginPlay()
 	if (bSpawnAtBeginPlay)
 	{
 		Spawn();
+	}
+}
+
+void ASGActorSpawner::DelayedSpawn()
+{
+	const FVector Location = GetActorLocation();
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+	GetWorld()->SpawnActor<AActor>(ActorClass, Location, FRotator::ZeroRotator, SpawnParams);
+	GetWorldTimerManager().ClearTimer(SpawnDelayTimerHandle);
+	OnSuccessfullySpawned.Broadcast();
+
+	if (bSpawnOnScannerTrigger == true)
+	{
+		if (SpawnCount != 0 and SpawnTimesRemaining == 0)
+		{
+			OnScannerSpawnsDepleted.Broadcast();
+		}
 	}
 }
 

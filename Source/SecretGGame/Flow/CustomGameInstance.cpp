@@ -26,7 +26,7 @@ void UCustomGameInstance::AddBossKey(const EBossKeyNames BossKeyName) const
 	
 	if (HasAllKeys() && GameplayState->CurrentObjectiveId == EQuestObjectiveIds::FindKeys)
 	{
-		SetCurrentObjectiveId(EQuestObjectiveIds::DefeatBoss);
+		SetCurrentObjectiveId(EQuestObjectiveIds::AccessAdminConsole);
 	}
 
 	OnGamePlayStateChanged.Broadcast();
@@ -43,6 +43,7 @@ void UCustomGameInstance::ResetOnGameStart() const
 	GameplayState->CurrentLevel = ELevelNames::None;
 	GameplayState->CurrentObjectiveId = EQuestObjectiveIds::Explore;
 	GameplayState->AcquiredBossKeys.Empty();
+	GameplayState->bHubLevelUnlocked = false;
 	OnGamePlayStateChanged.Broadcast();
 }
 
@@ -55,6 +56,18 @@ void UCustomGameInstance::SetCurrentLevel(const ELevelNames LevelName) const
 void UCustomGameInstance::UpdatePreviousLevel() const
 {
 	GameplayState->PreviousLevel = GameplayState->CurrentLevel;
+	OnGamePlayStateChanged.Broadcast();
+}
+
+void UCustomGameInstance::ClearPreviousLevel() const
+{
+	GameplayState->PreviousLevel = ELevelNames::None;
+	OnGamePlayStateChanged.Broadcast();
+}
+
+void UCustomGameInstance::UnlockHubLevel() const
+{
+	GameplayState->bHubLevelUnlocked = true;
 	OnGamePlayStateChanged.Broadcast();
 }
 
@@ -80,7 +93,36 @@ void UCustomGameInstance::Init()
 		
 		MasterAudioComponent->Play();
 		MasterAudioComponent->SetVolume(UserSettings->GetMusicVolume());
-		
-		UE_LOG(LogTemp, Warning, TEXT("Background music is playing"));
 	}
+}
+
+void UCustomGameInstance::PlayCalmMusic()
+{
+	if (bKeepIntenseMusic or bCalmMusicIsPlaying)
+    {
+        return;
+    }
+	
+	MasterAudioComponent->SetParameter(FName("restart"), 1.0f);
+	bCalmMusicIsPlaying = true;
+	UE_LOG(LogTemp, Warning, TEXT("Calm music is playing"));
+}
+
+void UCustomGameInstance::PlayIntenseMusic()
+{
+	bKeepIntenseMusic = true;
+	// clear IntenseMusicTimerHandle
+	GetWorld()->GetTimerManager().ClearTimer(IntenseMusicTimerHandle);
+	// set timer to stop intense music
+	GetWorld()->GetTimerManager().SetTimer(IntenseMusicTimerHandle, this, &UCustomGameInstance::ClearIntenseMusicFlag, IntenseMusicTimeout, false);
+
+	MasterAudioComponent->SetParameter(FName("Enemies"), 1.0f);
+	bCalmMusicIsPlaying = false;
+	UE_LOG(LogTemp, Warning, TEXT("Intense music is playing"));
+}
+
+void UCustomGameInstance::ClearIntenseMusicFlag()
+{
+    bKeepIntenseMusic = false;
+	PlayCalmMusic();
 }

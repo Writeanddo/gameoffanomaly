@@ -30,6 +30,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "FlowController")
 	TArray<EBossKeyNames> AcquiredBossKeys = {};
 
+	// Hub Level unlocked
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "FlowController")
+	bool bHubLevelUnlocked = false;
+	
 	// Current objective id
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "FlowController")
 	EQuestObjectiveIds CurrentObjectiveId = EQuestObjectiveIds::Explore;

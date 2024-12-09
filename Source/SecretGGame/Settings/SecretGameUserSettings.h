@@ -59,7 +59,10 @@ public:
 		return Cast<USecretGameUserSettings>(UGameUserSettings::GetGameUserSettings());
 	}
 
-
+	// Show level menu
+	UPROPERTY(config, EditAnywhere, BlueprintReadWrite, Category = Settings)
+	bool bShowLevelMenu = false;
+	
 	// Sound settings
 	UPROPERTY(config, EditAnywhere, BlueprintReadWrite, Category = Settings,
 		meta = (ClampMin = "0.0", ClampMax = "1.0", UIMin = "0.0", UIMax = "1.0"))
@@ -139,6 +142,22 @@ public:
 	// given option name and set of options, set fullscreen mode
 	UFUNCTION(BlueprintCallable, Category = Settings)
 	void SetFullScreenModeOption(const FString& OptionName, const TArray<FFullScreenModeOption>& Options);
+
+
+	// get game version string
+	UFUNCTION(BlueprintCallable, Category = Settings)
+	FString GetGameVersionString()
+	{
+		FString VersionString;
+		GConfig->GetString(
+			TEXT("/Script/EngineSettings.GeneralProjectSettings"),
+			TEXT("ProjectVersion"),
+			VersionString,
+			GGameIni
+		);
+
+		return VersionString;
+	}
 };
 
 inline void USecretGameUserSettings::SetScalabilityLevel(int32 Level)
