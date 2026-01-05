@@ -1,6 +1,4 @@
-﻿# Submission for [Game off 2024](https://itch.io/jam/game-off-2024) jam.
 
-Playable builds are available on [itch.io](https://enweave.itch.io/anomaly).
 
 ### Description:
 Cyberpunk 3rd person shooter where you investigate anomaly within 90's style representation of a neural network - NeuroScape.
